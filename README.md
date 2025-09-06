@@ -78,9 +78,13 @@ git clone https://github.com/rcicekli/users-posts-app.git
 cd users-posts-app
 npm install
 npm run dev
+<<<<<<< HEAD
 
 * LocalStorage üzerinde çalışan bir proje olduğu için verilerin listelenmediği durumlarda;
 -localStorage.clear()
 -localStorage.removeItem('posts') 
  
  
+=======
+Kullanım
+>>>>>>> 6419194 (README dosyasını güncelledim)
