@@ -171,7 +171,7 @@ const PostsPage = ({ isAdmin = false }: PostsPageProps) => {
             </Box>
 
             {isAdmin && (
-              <Box sx={{ width: { xs: '100%',md:'50%', sm: 'auto' } }}>
+              <Box sx={{ width: { xs: '100%',md:'50%', sm: '50%' } }}>
                 <FormControl size="small" fullWidth>
                   <InputLabel sx={{ color: '#e57c1f' }}>Kullanıcı Seç</InputLabel>
                   <Select
@@ -194,7 +194,8 @@ const PostsPage = ({ isAdmin = false }: PostsPageProps) => {
                     }}
                   >
                     {users.map(user => (
-                      <MenuItem key={user.id} value={user.id}>
+                      <MenuItem sx={{backgroundColor: theme.palette.background.default,
+                      color: theme.palette.primary.main}} key={user.id} value={user.id}>
                         {user.username}
                       </MenuItem>
                     ))}

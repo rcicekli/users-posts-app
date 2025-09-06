@@ -26,8 +26,8 @@ import { useTheme } from '@mui/material/styles' // ✅ EKLENDİ
 
 
 const UserProfilePage = () => {
-      const theme = useTheme() // ✅ EKLENDİ
-  
+  const theme = useTheme() // ✅ EKLENDİ
+
   const { userId } = useParams<{ userId: string }>()
   const navigate = useNavigate()
   const userIdNum = Number(userId)
@@ -102,7 +102,7 @@ const UserProfilePage = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh',  bgcolor: theme.palette.background.default, color: theme.palette.text.primary, py: 6 }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: theme.palette.background.default, color: theme.palette.text.primary, py: 6 }}>
 
       <Container maxWidth={false}
         sx={{
@@ -116,6 +116,8 @@ const UserProfilePage = () => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            flexWrap: 'wrap',
+            p:2,
             mb: 4,
           }}
         >
@@ -140,7 +142,16 @@ const UserProfilePage = () => {
           <Button variant="outlined" color="warning" onClick={goToAllPosts}>
             Tüm Postları Gör
           </Button>
-          <Typography variant="h5" sx={{ fontWeight: 'bold', color: theme.palette.primary.main }}>
+          <Typography
+            variant="h5"
+            sx={{
+              py:{xs:'20px'},
+              fontWeight: 'bold',
+              color: theme.palette.primary.main,
+              textAlign: { xs: 'center', sm: 'center' }, // ✅ xs'de ortala, sm ve üstü sola hizala
+              width: '100%' // ✅ Ortalamanın düzgün çalışması için genişlik veriyoruz
+            }}
+          >
             {user.username}
           </Typography>
         </Box>
@@ -158,9 +169,10 @@ const UserProfilePage = () => {
               label="Post Başlığı"
               value={newTitle}
               onChange={e => setNewTitle(e.target.value)}
-              InputProps={{ style: { color: theme.palette.text.primary} }}
+              InputProps={{ style: { color: theme.palette.text.primary } }}
               InputLabelProps={{ style: { color: '#e57c1f' } }}
               sx={{
+
                 '& .MuiOutlinedInput-root': {
                   '& fieldset': {
                     borderColor: '#e57c1f',
@@ -179,17 +191,18 @@ const UserProfilePage = () => {
               color="warning"
               onClick={handleAddPost}
               sx={{
-              bgcolor: theme.palette.background.default,
-              color: theme.palette.primary.main,
-              fontWeight: 'bold',
-              zIndex: 1000,
-              '&:hover': {
-                bgcolor: '#ff9933',
-                color: '#fff'
-              },
-              px: { xs: 1, sm: 2 },
-              minWidth: { xs: 'unset', sm: 'auto' },
-            }}
+                bgcolor: theme.palette.background.default,
+                color: theme.palette.primary.main,
+                fontWeight: 'bold',
+                zIndex: 1000,
+                '&:hover': {
+                  bgcolor: '#ff9933',
+                  color: '#fff'
+                },
+
+                px: { xs: 1, sm: 2 },
+                minWidth: { xs: 'unset', sm: 'auto' },
+              }}
             >
               <SendIcon />
 
@@ -198,7 +211,7 @@ const UserProfilePage = () => {
         </Paper>
 
         {/* Kullanıcının Postları */}
-        <Paper sx={{ backgroundColor:  theme.palette.background.default, p: 3 }}>
+        <Paper sx={{ backgroundColor: theme.palette.background.default, p: 3 }}>
           <Typography variant="h6" gutterBottom sx={{ color: '#e57c1f' }}>
             Postların
           </Typography>
