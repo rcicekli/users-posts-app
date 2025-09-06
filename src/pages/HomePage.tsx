@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { Box, Button, Container, Typography } from '@mui/material'
 import logo from '../assets/davincilogo.png'
-import { useTheme } from '@mui/material/styles' // ✅ EKLENDİ
+import { useTheme } from '@mui/material/styles' 
 
 const HomePage = () => {
-  const theme = useTheme() // ✅ EKLENDİ
+  const theme = useTheme() 
 
   const navigate = useNavigate()
 
@@ -12,7 +12,7 @@ const HomePage = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        backgroundImage: 'none', // istersen buraya background image ekleyebilirsin
+        backgroundImage: 'none', 
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -46,10 +46,11 @@ const HomePage = () => {
             variant="contained"
             onClick={() => navigate('/admin')}
             sx={{
+              
               borderColor: '#e57c1f',
               color:  theme.palette.text.primary,
               fontWeight: 'bold',
-              px: 4,
+              px: 6,
               py: 1.5,
               '&:hover': {
                 backgroundColor: 'rgba(229, 124, 31, 0.1)',
@@ -69,7 +70,7 @@ const HomePage = () => {
               borderColor: '#e57c1f',
               color:  theme.palette.text.primary,
               fontWeight: 'bold',
-              px: 4,
+              px:4,
               py: 1.5,
               '&:hover': {
                 backgroundColor: 'rgba(229, 124, 31, 0.1)',

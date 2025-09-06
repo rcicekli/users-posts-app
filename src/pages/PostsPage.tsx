@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useTheme } from '@mui/material/styles';  // bu satırı ekle
+import { useParams, useNavigate } from 'react-router-dom'
+import { useTheme } from '@mui/material/styles'
 
 import {
   Box,
@@ -23,33 +23,30 @@ import {
   Button
 } from '@mui/material'
 
-import SendIcon from '@mui/icons-material/Send';
+import SendIcon from '@mui/icons-material/Send'
 import SaveIcon from '@mui/icons-material/Save'
 import CloseIcon from '@mui/icons-material/Close'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import HomeIcon from '@mui/icons-material/Home'
 
 import { fetchPosts } from '../services/posts'
 import { fetchUsers } from '../services/users'
 import type { Post } from '../types/post'
 import type { User } from '../types/user'
-import HomeIcon from '@mui/icons-material/Home' // ✅ İKON EKLENDİ
-import { useNavigate } from 'react-router-dom'
-
 
 interface PostsPageProps {
   isAdmin?: boolean
 }
 
 const PostsPage = ({ isAdmin = false }: PostsPageProps) => {
-  const theme = useTheme();
-
+  const theme = useTheme()
   const navigate = useNavigate()
   const { userId } = useParams<{ userId: string }>()
+
   const [posts, setPosts] = useState<Post[]>([])
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
-
   const [newTitle, setNewTitle] = useState('')
   const [editingPostId, setEditingPostId] = useState<number | null>(null)
   const [editingTitle, setEditingTitle] = useState('')
@@ -139,26 +136,22 @@ const PostsPage = ({ isAdmin = false }: PostsPageProps) => {
 
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: theme.palette.background.default, py: 4 }}>
-
       <Container maxWidth="lg">
-
-        <Typography variant="h4" sx={{color: theme.palette.primary.main, fontWeight: 'bold', mb: 4 }}>
-          {isAdmin ? 'Admin Paneli - Postlar' : 'Kullanıcı Postları'}
+        <Typography variant="h4" sx={{ color: theme.palette.primary.main, fontWeight: 'bold', mb: 4 }}>
+          {isAdmin ? 'Postlar' : 'Kullanıcı Postları'}
         </Typography>
 
         {(isAdmin || currentUserId) && (
           <Box
             sx={{
               display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
               gap: 2,
-              flexWrap: 'nowrap',
               mb: 3,
-              alignItems: 'center',
-              
-              
+              alignItems: 'stretch'
             }}
-          >{/* ✅ Ana Sayfa Butonu */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          >
+            <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
               <Button
                 onClick={() => navigate('/')}
                 sx={{
@@ -170,87 +163,92 @@ const PostsPage = ({ isAdmin = false }: PostsPageProps) => {
                     bgcolor: '#ff9933',
                     color: '#fff',
                   },
-                  px: { xs: 1, sm: 2 },
-                  minWidth: { xs: 'unset', sm: 'auto' },
+                  width: '100%',
                 }}
               >
-                <Box sx={{  height: '25px', display: { xs: 'none', sm: 'block' } }}><HomeIcon /></Box>
+                <HomeIcon />
               </Button>
             </Box>
+
             {isAdmin && (
-              
-              <FormControl size="small" sx={{ minWidth: 160 }}>
-                
-                <InputLabel sx={{ color: '#e57c1f', }}>Kullanıcı Seç</InputLabel>
-                <Select
-                  value={selectedUserIdForPost ?? ''}
-                  onChange={(e) => setSelectedUserIdForPost(Number(e.target.value))}
-                  label="Kullanıcı Seç"
+              <Box sx={{ width: { xs: '100%',md:'50%', sm: 'auto' } }}>
+                <FormControl size="small" fullWidth>
+                  <InputLabel sx={{ color: '#e57c1f' }}>Kullanıcı Seç</InputLabel>
+                  <Select
+                    value={selectedUserIdForPost ?? ''}
+                    onChange={(e) => setSelectedUserIdForPost(Number(e.target.value))}
+                    label="Kullanıcı Seç"
+                    fullWidth
+                    sx={{
+                      backgroundColor: theme.palette.background.default,
+                      color: theme.palette.primary.main,
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#e57c1f',
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#ff9933',
+                      },
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#ff9933',
+                      }
+                    }}
+                  >
+                    {users.map(user => (
+                      <MenuItem key={user.id} value={user.id}>
+                        {user.username}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+            )}
+
+            <Box sx={{ width: '100%' }}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Yeni Post Başlığı"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                variant="outlined"
+                sx={{
+                  input: { color: theme.palette.text.primary },
+                  '& .MuiInputLabel-root': { color: '#e57c1f' },
+                  '& .MuiOutlinedInput-root': {
+                    color: '#fff',
+                    backgroundColor: theme.palette.background.default,
+                    '& fieldset': {
+                      borderColor: '#e57c1f'
+                    },
+                    '&:hover fieldset': {
+                      borderColor: '#ff9933'
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: '#ff9933'
+                    }
+                  }
+                }}
+              />
+            </Box>
+
+            <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
+              <Tooltip title="Paylaş">
+                <IconButton
+                  onClick={handleAddPost}
                   sx={{
                     backgroundColor: theme.palette.background.default,
-                    color:theme.palette.primary.main,
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#e57c1f',
-                    },
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#ff9933',
-                    },
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#ff9933',
-                    }
+                    color: theme.palette.primary.main,
+                    height: '40px',
+                    width: '100%',
+                    border: `1px solid ${theme.palette.primary.main}`,
+                    '&:hover': { bgcolor: '#ff9933', color: '#fff' },
+                    borderRadius: 1,
                   }}
                 >
-                  {users.map(user => (
-                    <MenuItem sx={{color:theme.palette.primary.main,backgroundColor: theme.palette.background.default}}key={user.id} value={user.id}>
-                      {user.username}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
-            
-            <TextField
-              size="small"
-              label="Yeni Post Başlığı"
-              value={newTitle}
-              onChange={(e) => setNewTitle(e.target.value)}
-              variant="outlined"
-              sx={{
-                flex: 1,
-                input: { color: theme.palette.text.primary },
-                '& .MuiInputLabel-root': { color: '#e57c1f' },
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  backgroundColor: theme.palette.background.default,
-                  '& fieldset': {
-                    borderColor: '#e57c1f'
-                  },
-                  '&:hover fieldset': {
-                    borderColor: '#ff9933'
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#ff9933'
-                  }
-                }
-              }}
-            />
-
-            <Tooltip title="Paylaş">
-              <IconButton
-                onClick={handleAddPost}
-                sx={{
-                  backgroundColor: theme.palette.background.default,
-                  color: theme.palette.primary.main,
-                  height: '40px',
-                 border: `1px solid ${theme.palette.primary.main}`,
-                  '&:hover': { bgcolor: '#ff9933',
-                    color: '#fff' },
-                  borderRadius: 1,
-                }}
-              >
-                <SendIcon />
-              </IconButton>
-            </Tooltip>
+                  <SendIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
           </Box>
         )}
 
@@ -258,10 +256,10 @@ const PostsPage = ({ isAdmin = false }: PostsPageProps) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontWeight: 'bold',color: theme.palette.primary.main}}>ID</TableCell>
-                <TableCell sx={{fontWeight: 'bold', color: theme.palette.primary.main }}>Kullanıcı</TableCell>
-                <TableCell sx={{fontWeight: 'bold',  color: theme.palette.primary.main  }}>Başlık</TableCell>
-                <TableCell sx={{fontWeight: 'bold',  color: theme.palette.primary.main }}>İşlemler</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', color: theme.palette.primary.main }}>ID</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', color: theme.palette.primary.main }}>Kullanıcı</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', color: theme.palette.primary.main }}>Başlık</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', color: theme.palette.primary.main }}>İşlemler</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -272,9 +270,9 @@ const PostsPage = ({ isAdmin = false }: PostsPageProps) => {
 
                 return (
                   <TableRow key={post.id}>
-                    <TableCell sx={{  color: theme.palette.text.primary }}>{post.id}</TableCell>
-                    <TableCell sx={{  color: theme.palette.text.primary }}>{postOwner?.username || 'Bilinmeyen'}</TableCell>
-                    <TableCell sx={{  color: theme.palette.text.primary  }}>
+                    <TableCell sx={{ color: theme.palette.text.primary }}>{post.id}</TableCell>
+                    <TableCell sx={{ color: theme.palette.text.primary }}>{postOwner?.username || 'Bilinmeyen'}</TableCell>
+                    <TableCell sx={{ color: theme.palette.text.primary }}>
                       {editingPostId === post.id && canEdit ? (
                         <TextField
                           size="small"
