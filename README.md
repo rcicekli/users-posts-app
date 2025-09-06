@@ -70,6 +70,49 @@ users-posts-app/
 ## Vercel
 
 https://react-users-posts-app.vercel.app/
+## Proje Dizini
+users-posts-app/
+├── public/
+│   └── vite.svg
+├── src/
+│   ├── assets/
+│   │   ├── davincilogo.png
+│   │   └── react.svg
+│   ├── pages/
+│   │   ├── AdminPanel.tsx
+│   │   ├── HomePage.tsx
+│   │   ├── PostsPage.tsx
+│   │   ├── UserLoginPage.tsx
+│   │   ├── UserProfilePage.tsx
+│   │   └── UsersPage.tsx
+│   ├── services/
+│   │   ├── api.ts
+│   │   ├── posts.ts
+│   │   └── users.ts
+│   ├── types/
+│   │   ├── post.ts
+│   │   └── user.ts
+│   ├── App.tsx
+│   ├── App.css
+│   ├── ThemeContext.tsx
+│   ├── index.css
+│   ├── main.tsx
+│   └── vite-env.d.ts
+├── .gitignore
+├── index.html
+├── package.json
+├── package-lock.json
+├── README.md
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── vite.config.ts
+└── eslint.config.js
+
+
+## Vercel
+
+https://react-users-posts-app.vercel.app/
 
 ## Kurulum
 
@@ -78,6 +121,12 @@ git clone https://github.com/rcicekli/users-posts-app.git
 cd users-posts-app
 npm install
 npm run dev
+
+* LocalStorage üzerinde çalışan bir proje olduğu için verilerin listelenmediği durumlarda;
+-localStorage.clear()
+-localStorage.removeItem('posts') 
+ 
+ 
 <<<<<<< HEAD
 
 * LocalStorage üzerinde çalışan bir proje olduğu için verilerin listelenmediği durumlarda;
@@ -85,6 +134,3 @@ npm run dev
 -localStorage.removeItem('posts') 
  
  
-=======
-Kullanım
->>>>>>> 6419194 (README dosyasını güncelledim)
